@@ -8,8 +8,17 @@ import Citizen from '../app/models/Citizen';
 import Situation from '../app/models/Situation';
 import Symptom from '../app/models/Symptom';
 
+import DataCollected from '../app/models/DataCollected';
+import SymptomDataCollected from '../app/models/SymptomDataCollected';
+
 // tem que adicionar todos os models aqui
-const models = [Citizen, Situation, Symptom];
+const models = [
+  Citizen,
+  Situation,
+  Symptom,
+  DataCollected,
+  SymptomDataCollected,
+];
 
 class Database {
   constructor() {
@@ -21,11 +30,11 @@ class Database {
 
     models
       .map(model => model.init(this.connection))
-      .map(model => {
+      .forEach(model => {
         try {
           model.associate(this.connection.models);
         } catch (e) {
-          console.log('n tem');
+          //
         }
       });
   }
