@@ -4,6 +4,14 @@ import Situation from '../models/Situation';
 class SituationController {
   async store(req, res) {
     try {
+      const schema = Yup.object().shape({
+        name: Yup.string().required(),
+      });
+
+      if (!(await schema.isValid(req.body))) {
+        return res.status(400).json({ error: 'Validation fails!' });
+      }
+
       const situation = await Situation.create(req.body);
 
       return res.json(situation);
@@ -25,21 +33,30 @@ class SituationController {
       return res.status(400).json({ error: 'Internal error!', mensage: e });
     }
   }
+
+  async update(req, res) {
+    try {
+      const situation = await Situation.findByPk(req.params.id);
+
+      const response = await situation.update(req.body);
+
+      return res.json(response);
+    } catch (e) {
+      return res.status(400).json({ error: 'Internal error!', mensage: e });
+    }
+  }
+
+  async destroy(req, res) {
+    try {
+      const situation = await Situation.findByPk(req.params.id);
+
+      const response = await situation.update({ active: false });
+
+      return res.json(response);
+    } catch (e) {
+      return res.status(400).json({ error: 'Internal error!', mensage: e });
+    }
+  }
 }
 
 export default new SituationController();
-
-/*  const schema = Yup.object().shape({
-        name: Yup.string().required(),
-        email: Yup.string()
-          .email()
-          .required(),
-        password: Yup.string()
-          .required()
-          .min(6),
-      });
-
-      if (!(await schema.isValid(req.body))) {
-        return res.status(400).json({ error: 'Validation fails!' });
-      }
- */
