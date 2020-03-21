@@ -7,6 +7,7 @@ import SymptomController from './app/controllers/SymptomController';
 import UserController from './app/controllers/UserController';
 import SessionController from './app/controllers/SessionController';
 import SessionCitizenController from './app/controllers/SessionCitizenController';
+import TipController from './app/controllers/TipController';
 import FileController from './app/controllers/FileController';
 
 import authMiddleware from './app/middlewares/auth';
@@ -32,6 +33,11 @@ routes.post('/symptoms', SymptomController.store);
 routes.put('/symptoms/:id', SymptomController.update);
 routes.delete('/symptoms/:id', SymptomController.destroy);
 routes.get('/symptoms', SymptomController.index);
+
+routes.post('/tips', upload.single('file'), TipController.store);
+routes.put('/tips/:id', TipController.update);
+routes.delete('/tips/:id', TipController.destroy);
+routes.get('/tips', TipController.index);
 
 routes.post('/users', UserController.store);
 
