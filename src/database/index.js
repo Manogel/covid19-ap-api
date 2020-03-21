@@ -6,9 +6,10 @@ import databaseConfig from '../config/database';
 
 import Citizen from '../app/models/Citizen';
 import Situation from '../app/models/Situation';
+import Symptom from '../app/models/Symptom';
 
 // tem que adicionar todos os models aqui
-const models = [Citizen, Situation];
+const models = [Citizen, Situation, Symptom];
 
 class Database {
   constructor() {

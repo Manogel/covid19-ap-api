@@ -3,6 +3,7 @@ import multer from 'multer';
 
 import CitizenController from './app/controllers/CitizenController';
 import SituationController from './app/controllers/SituationController';
+import SymptomController from './app/controllers/SymptomController';
 import UserController from './app/controllers/UserController';
 import SessionController from './app/controllers/SessionController';
 import SessionCitizenController from './app/controllers/SessionCitizenController';
@@ -26,6 +27,11 @@ routes.post('/situations', SituationController.store);
 routes.put('/situations/:id', SituationController.update);
 routes.delete('/situations/:id', SituationController.destroy);
 routes.get('/situations', SituationController.index);
+
+routes.post('/symptoms', SymptomController.store);
+routes.put('/symptoms/:id', SymptomController.update);
+routes.delete('/symptoms/:id', SymptomController.destroy);
+routes.get('/symptoms', SymptomController.index);
 
 routes.post('/users', UserController.store);
 
