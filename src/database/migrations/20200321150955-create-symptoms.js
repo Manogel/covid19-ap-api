@@ -11,6 +11,10 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      probable: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
+      },
       active: {
         type: Sequelize.BOOLEAN,
         defaultValue: true,
