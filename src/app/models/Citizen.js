@@ -45,6 +45,11 @@ class Citizen extends Model {
       foreignKey: 'situation_id',
       as: 'situation',
     });
+
+    this.hasMany(models.DataCollected, {
+      foreignKey: 'citizen_id',
+      as: 'last_data_collection',
+    });
   }
 }
 

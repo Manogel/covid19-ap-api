@@ -2,6 +2,8 @@ import * as Yup from 'yup';
 import { or } from 'sequelize';
 import Citizen from '../models/Citizen';
 import Situation from '../models/Situation';
+import Symptom from '../models/Symptom';
+import DataCollected from '../models/DataCollected';
 
 class CitizenController {
   async store(req, res) {
@@ -78,6 +80,66 @@ class CitizenController {
       });
 
       return res.json(users);
+    } catch (e) {
+      return res.status(400).json({ error: 'Internal error!', mensage: e });
+    }
+  }
+
+  async show(req, res) {
+    try {
+      const user = await Citizen.findOne({
+        attributes: [
+          'id',
+          'name',
+          'social_name',
+          'email',
+          'contact',
+          'cpf',
+          'birthday',
+          'sex',
+          'address',
+          'confirmed_contact',
+          'suspicious_contact',
+          'been_outside',
+        ],
+        where: {
+          deleted_at: null,
+          id: req.params.id,
+        },
+        include: [
+          {
+            model: Situation,
+            as: 'situation',
+            attributes: ['id', 'name'],
+            required: false,
+          },
+          {
+            model: DataCollected,
+            as: 'last_data_collection',
+            required: false,
+            attributes: ['id', 'observation'],
+            order: [['id', 'desc']],
+            include: [
+              {
+                model: Symptom,
+                as: 'symptoms',
+                required: true,
+                attributes: ['id', 'name', 'probable'],
+                through: { attributes: [] },
+              },
+            ],
+          },
+        ],
+        order: [['last_data_collection', 'id', 'desc']],
+      });
+
+      if (!user) {
+        return res.status(400).json({
+          error: 'Usuário nâo encontrado!',
+        });
+      }
+
+      return res.json(user);
     } catch (e) {
       return res.status(400).json({ error: 'Internal error!', mensage: e });
     }
@@ -171,18 +233,3 @@ class CitizenController {
 }
 
 export default new CitizenController();
-
-/*  const schema = Yup.object().shape({
-        name: Yup.string().required(),
-        email: Yup.string()
-          .email()
-          .required(),
-        password: Yup.string()
-          .required()
-          .min(6),
-      });
-
-      if (!(await schema.isValid(req.body))) {
-        return res.status(400).json({ error: 'Validation fails!' });
-      }
- */

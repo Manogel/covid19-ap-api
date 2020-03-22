@@ -4,6 +4,10 @@ class SymptomDataCollected extends Model {
   static init(sequelize) {
     super.init(
       {
+        id: {
+          type: Sequelize.INTEGER,
+          primaryKey: true,
+        },
         deleted_at: Sequelize.DATE,
       },
       {

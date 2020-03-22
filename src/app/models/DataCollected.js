@@ -21,9 +21,10 @@ class DataCollected extends Model {
       foreignKey: 'citizen_id',
       as: 'citizen',
     });
-    this.hasMany(models.SymptomDataCollected, {
+    this.belongsToMany(models.Symptom, {
       foreignKey: 'data_collected_id',
-      as: 'symptoms_collected',
+      through: 'symptom_data_collected',
+      as: 'symptoms',
     });
   }
 }
