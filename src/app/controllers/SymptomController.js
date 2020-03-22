@@ -26,6 +26,7 @@ class SymptomController {
         where: {
           active: true,
         },
+        attributes: ['id', 'name', 'active'],
       });
 
       return res.json(symptoms);

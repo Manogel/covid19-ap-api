@@ -26,6 +26,7 @@ class SituationController {
         where: {
           active: true,
         },
+        attributes: ['id', 'name', 'active'],
       });
 
       return res.json(situations);
