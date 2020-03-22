@@ -43,7 +43,7 @@ routes.post('/users', UserController.store);
 
 routes.post('/files', upload.single('file'), FileController.store);
 
-//routes.use(authMiddleware);
+routes.use(authMiddleware);
 // Rotas privadas apartir daqui
 routes.put('/users', UserController.update);
 
