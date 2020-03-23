@@ -111,6 +111,7 @@ class UserController {
         deleted_at: null,
       },
       attributes: ['id', 'name', 'email'],
+      order: [['id', 'asc']],
     });
 
     return res.json(user);

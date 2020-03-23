@@ -63,6 +63,7 @@ class CollectSymptomsController {
             attributes: ['id', 'name', 'probable', 'active'],
           },
         ],
+        order: [['id', 'asc']],
       });
 
       return res.json(symptomCollected);

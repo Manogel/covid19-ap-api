@@ -67,6 +67,7 @@ class TipController {
         where: {
           deleted_at: null,
         },
+        order: [['id', 'asc']],
       });
 
       return res.json(tips);

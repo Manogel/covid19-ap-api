@@ -27,6 +27,7 @@ class SymptomController {
           active: true,
         },
         attributes: ['id', 'name', 'probable', 'active'],
+        order: [['id', 'asc']],
       });
 
       return res.json(symptoms);

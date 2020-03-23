@@ -27,6 +27,7 @@ class SituationController {
           active: true,
         },
         attributes: ['id', 'name', 'active'],
+        order: [['id', 'asc']],
       });
 
       return res.json(situations);

@@ -11,7 +11,7 @@ class SymptomsCollectedController {
         where: {
           deleted_at: null,
         },
-
+        order: [['created_at', 'desc']],
         attributes: [
           'id',
           'observation',
@@ -54,6 +54,7 @@ class SymptomsCollectedController {
           deleted_at: null,
           id: req.params.id,
         },
+
         attributes: ['id', 'observation', 'created_at'],
         include: [
           {

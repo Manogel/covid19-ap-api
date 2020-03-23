@@ -77,6 +77,7 @@ class CitizenController {
             attributes: ['id', 'name'],
           },
         ],
+        order: [['id', 'asc']],
       });
 
       return res.json(users);
