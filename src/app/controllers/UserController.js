@@ -11,7 +11,7 @@ class UserController {
           .required(),
         password: Yup.string()
           .required()
-          .min(6),
+          .min(4),
       });
 
       if (!(await schema.isValid(req.body))) {
@@ -25,7 +25,9 @@ class UserController {
       });
 
       if (isExists) {
-        return res.status(400).json({ error: 'User is exists!' });
+        return res
+          .status(400)
+          .json({ error: 'Já existe um usuário com este endereço de email!' });
       }
 
       const user = await User.create(req.body);
@@ -40,15 +42,12 @@ class UserController {
     const schema = Yup.object().shape({
       name: Yup.string(),
       email: Yup.string().email(),
-      oldPassword: Yup.string().min(6),
+      oldPassword: Yup.string().min(4),
       password: Yup.string()
-        .min(6)
+        .min(4)
         .when('oldPassword', (oldPassword, field) =>
           oldPassword ? field.required() : field
         ),
-      confirmPassword: Yup.string().when('password', (password, field) =>
-        password ? field.required().oneOf([Yup.ref('password')]) : field
-      ),
     });
 
     if (!(await schema.isValid(req.body))) {
@@ -67,7 +66,9 @@ class UserController {
       });
 
       if (isExists) {
-        return res.status(400).json({ error: 'User is exists!' });
+        return res
+          .status(400)
+          .json({ error: 'Já existe um usuário com este endereço de email!' });
       }
     }
 
@@ -75,7 +76,7 @@ class UserController {
       oldPassword &&
       !(await User.checkPassword(oldPassword, user.password_hash))
     ) {
-      return res.status(401).json({ error: 'Password does not match!' });
+      return res.status(401).json({ error: 'Senha nâo confere!' });
     }
 
     const { id, name } = await user.update(req.body);
@@ -85,6 +86,34 @@ class UserController {
       name,
       email,
     });
+  }
+
+  async show(req, res) {
+    const user = await User.findByPk(req.params.id, {
+      attributes: ['id', 'name', 'email'],
+    });
+
+    return res.json(user);
+  }
+
+  async destory(req, res) {
+    const user = await User.findByPk(req.params.id);
+
+    const { deleted_at, name, email } = await user.update({
+      deleted_at: new Date(),
+    });
+    return res.json({ deleted_at, name, email });
+  }
+
+  async index(req, res) {
+    const user = await User.findAll({
+      where: {
+        deleted_at: null,
+      },
+      attributes: ['id', 'name', 'email'],
+    });
+
+    return res.json(user);
   }
 }
 

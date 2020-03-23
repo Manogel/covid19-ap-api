@@ -4,6 +4,7 @@ import databaseConfig from '../config/database';
 // import User from '../app/models/User';
 // import File from '../app/models/File';
 
+import User from '../app/models/User';
 import Citizen from '../app/models/Citizen';
 import Situation from '../app/models/Situation';
 import Symptom from '../app/models/Symptom';
@@ -20,6 +21,7 @@ const models = [
   DataCollected,
   SymptomDataCollected,
   Tip,
+  User,
 ];
 
 class Database {
