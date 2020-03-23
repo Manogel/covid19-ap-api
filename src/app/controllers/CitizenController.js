@@ -44,7 +44,34 @@ class CitizenController {
 
       const user = await Citizen.create({ ...req.body, situation_id: 1 });
 
-      return res.json(user);
+      const response = await Citizen.findByPk(user.id, {
+        attributes: [
+          'id',
+          'name',
+          'social_name',
+          'latitude',
+          'longitude',
+          'email',
+          'contact',
+          'cpf',
+          'birthday',
+          'sex',
+          'address',
+          'confirmed_contact',
+          'suspicious_contact',
+          'been_outside',
+        ],
+        include: [
+          {
+            model: Situation,
+            as: 'situation',
+            attributes: ['id', 'name'],
+            required: false,
+          },
+        ],
+      });
+
+      return res.json(response);
     } catch (e) {
       return res.status(400).json({ error: 'Internal error!', mensage: e });
     }
@@ -67,7 +94,7 @@ class CitizenController {
           'suspicious_contact',
           'been_outside',
           'createdAt',
-          'updatedAt'
+          'updatedAt',
         ],
         where: {
           deleted_at: null,
@@ -95,8 +122,8 @@ class CitizenController {
           'id',
           'name',
           'social_name',
-          "latitude",
-          "longitude",
+          'latitude',
+          'longitude',
           'email',
           'contact',
           'cpf',

@@ -1,4 +1,5 @@
 import * as Yup from 'yup';
+import axios from 'axios';
 import Tip from '../models/Tip';
 
 class TipController {
@@ -71,6 +72,28 @@ class TipController {
       });
 
       return res.json(tips);
+    } catch (e) {
+      return res.status(400).json({ error: 'Internal error!', mensage: e });
+    }
+  }
+
+  async sus(req, res) {
+    try {
+      const { data } = await axios.post(
+        'http://mobileapps.saude.gov.br/coronavirus/classes/dicas',
+        {
+          where: {},
+          limit: 2000,
+          order: '-updatedAt',
+          _method: 'GET',
+          _ApplicationId: '123242d9f6164a2d1b6eb0266010f1b1',
+          _JavaScriptKey: 'W1ccHDYbSQSeSWJxrdzWGjrSbXxeYMyW5BDGIbVo',
+          _ClientVersion: 'js2.11.0',
+          _InstallationId: '61f2908b-6943-4cb6-953f-46fc83d34b9b',
+        }
+      );
+
+      return res.json(data.results);
     } catch (e) {
       return res.status(400).json({ error: 'Internal error!', mensage: e });
     }

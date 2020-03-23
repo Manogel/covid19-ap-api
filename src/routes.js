@@ -31,6 +31,7 @@ routes.post('/symptoms', SymptomController.store);
 routes.get('/symptoms', SymptomController.index);
 
 routes.get('/tips', TipController.index);
+routes.get('/tips/sus', TipController.sus);
 
 routes.post('/citizens/:id/collect_symptoms', CollectSymptomsController.store);
 
