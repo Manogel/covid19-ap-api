@@ -42,7 +42,7 @@ class CitizenController {
           .json({ error: `Endereço de ${target_error} já em uso!` });
       }
 
-      const user = await Citizen.create({ ...req.body, situation_id: 2 });
+      const user = await Citizen.create({ ...req.body, situation_id: 1 });
 
       return res.json(user);
     } catch (e) {
@@ -66,6 +66,8 @@ class CitizenController {
           'confirmed_contact',
           'suspicious_contact',
           'been_outside',
+          'createdAt',
+          'updatedAt'
         ],
         where: {
           deleted_at: null,
@@ -93,6 +95,8 @@ class CitizenController {
           'id',
           'name',
           'social_name',
+          "latitude",
+          "longitude",
           'email',
           'contact',
           'cpf',
@@ -118,7 +122,7 @@ class CitizenController {
             model: DataCollected,
             as: 'last_data_collection',
             required: false,
-            attributes: ['id', 'observation'],
+            attributes: ['id', 'observation', 'createdAt'],
             order: [['id', 'desc']],
             include: [
               {
