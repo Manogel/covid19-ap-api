@@ -10,6 +10,8 @@ import SessionCitizenController from './app/controllers/SessionCitizenController
 import TipController from './app/controllers/TipController';
 import CollectSymptomsController from './app/controllers/CollectSymptomsController';
 import SymptomsCollectedController from './app/controllers/SymptomsCollectedController';
+import SituationCitizenController from './app/controllers/SituationCitizenController';
+import FeedbackSituationCitizenController from './app/controllers/FeedbackSituationCitizenController';
 
 import authMiddleware from './app/middlewares/auth';
 import adminMiddleware from './app/middlewares/admin';
@@ -48,6 +50,7 @@ routes.get('/citizens', CitizenController.index);
 routes.use(adminMiddleware);
 
 routes.delete('/citizens/:id', CitizenController.destroy);
+routes.put('/citizens/:id/situation', SituationCitizenController.update);
 
 routes.get('/users', UserController.index);
 routes.put('/users', UserController.update);
@@ -60,6 +63,15 @@ routes.delete('/situations/:id', SituationController.destroy);
 
 routes.put('/symptoms/:id', SymptomController.update);
 routes.delete('/symptoms/:id', SymptomController.destroy);
+
+routes.put(
+  '/symptoms_collected/:id/feedback',
+  FeedbackSituationCitizenController.update
+);
+routes.delete(
+  '/symptoms_collected/:id/feedback',
+  FeedbackSituationCitizenController.destroy
+);
 
 routes.post('/tips', upload.single('file'), TipController.store);
 routes.put('/tips/:id', TipController.update);

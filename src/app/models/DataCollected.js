@@ -6,6 +6,7 @@ class DataCollected extends Model {
       {
         observation: Sequelize.TEXT,
         deleted_at: Sequelize.DATE,
+        feedback: Sequelize.TEXT,
       },
       {
         sequelize,
@@ -17,6 +18,10 @@ class DataCollected extends Model {
   }
 
   static associate(models) {
+    this.belongsTo(models.User, {
+      foreignKey: 'user_feedback',
+      as: 'data_user_feedback',
+    });
     this.belongsTo(models.Citizen, {
       foreignKey: 'citizen_id',
       as: 'citizen',

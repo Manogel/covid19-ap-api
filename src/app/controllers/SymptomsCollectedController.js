@@ -1,5 +1,6 @@
 import { fn, col } from 'sequelize';
 import Symptom from '../models/Symptom';
+import User from '../models/User';
 import DataCollected from '../models/DataCollected';
 import Citizen from '../models/Citizen';
 import Situation from '../models/Situation';
@@ -15,6 +16,7 @@ class SymptomsCollectedController {
         attributes: [
           'id',
           'observation',
+          'feedback',
           'created_at',
           // [fn('COUNT', col('Symptom.id'))],
         ],
@@ -55,8 +57,13 @@ class SymptomsCollectedController {
           id: req.params.id,
         },
 
-        attributes: ['id', 'observation', 'created_at'],
+        attributes: ['id', 'observation', 'created_at', 'feedback'],
         include: [
+          {
+            model: User,
+            as: 'data_user_feedback',
+            attributes: ['name'],
+          },
           {
             model: Symptom,
             as: 'symptoms',

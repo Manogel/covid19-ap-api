@@ -2,6 +2,7 @@ import * as Yup from 'yup';
 import { or } from 'sequelize';
 import Citizen from '../models/Citizen';
 import Situation from '../models/Situation';
+import User from '../models/User';
 import Symptom from '../models/Symptom';
 import DataCollected from '../models/DataCollected';
 
@@ -149,7 +150,7 @@ class CitizenController {
             model: DataCollected,
             as: 'last_data_collection',
             required: false,
-            attributes: ['id', 'observation', 'createdAt'],
+            attributes: ['id', 'observation', 'feedback', 'createdAt'],
             order: [['id', 'desc']],
             include: [
               {
@@ -158,6 +159,11 @@ class CitizenController {
                 required: true,
                 attributes: ['id', 'name', 'probable'],
                 through: { attributes: [] },
+              },
+              {
+                model: User,
+                as: 'data_user_feedback',
+                attributes: ['name'],
               },
             ],
           },
